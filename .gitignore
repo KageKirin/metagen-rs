@@ -1,0 +1,5 @@
+# .gitignore for Metagen-rs
+
+# Added by cargo
+
+/target
