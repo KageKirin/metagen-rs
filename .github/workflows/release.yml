@@ -40,12 +40,17 @@ jobs:
           #body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
+      - name: Prepare release artifacts`
+        run: |
+          ls ./target/release/
+          tar caf metagen.tar.gz ./target/release/metagen
+          tar tvf metagen.tar.gz
       - name: Upload release artifacts
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/release/metagen
-          asset_name: metagen
-          asset_content_type: application/octet-stream
+          asset_path: ./metagen.tar.gz
+          asset_name: metagen.tar.gz
+          asset_content_type: application/gzip
