@@ -14,28 +14,19 @@ jobs:
   check:
     name: Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - x86_64-apple-darwin
-          - aarch64-apple-darwin
-          - x86_64-pc-windows-msvc
-          - x86_64-unknown-linux-gnu
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
-          target: ${{ matrix.target }}
           override: true
       - uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: build
-          args: --release --target=${{ matrix.target }}
+          args: --release
       - uses: actions/upload-artifact@v2
         with:
-          name: metagen-${{ matrix.target }}
+          name: metagen
           path: |
             target/release/metagen
