@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 twox-hash = "1.6.1"
+argh = "0.1.6"
