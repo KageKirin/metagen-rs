@@ -1,5 +1,5 @@
 [package]
-name = "metagen-rs"
+name = "metagen"
 version = "0.1.0"
 authors = ["Chris Helmich <kagekirin@gmail.com>"]
 edition = "2018"
