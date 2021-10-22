@@ -43,7 +43,7 @@ jobs:
       - name: Prepare release artifacts`
         run: |
           ls ./target/release/
-          tar caf metagen.tar.gz ./target/release/metagen
+          tar caf metagen.tar.gz -C ./target/release/ metagen
           tar tvf metagen.tar.gz
       - name: Upload release artifacts
         uses: actions/upload-release-asset@v1
