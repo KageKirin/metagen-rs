@@ -17,6 +17,10 @@ struct Args {
     #[argh(option, short = 's', default = "default_seed()")]
     seed: String,
 
+    /// overwrite existing .meta files
+    #[argh(switch, short = 'o')]
+    overwrite: bool,
+
     /// files to generate .meta files for
     #[argh(positional)]
     files: Vec<PathBuf>,
@@ -33,15 +37,20 @@ fn main() {
         if f.exists() {
             let guid = hash128_with_seed(f.to_str().unwrap().as_bytes(), seed);
             println!("{} -> {:x}", f.to_str().unwrap(), guid);
-            generate_meta_file(f, guid);
+            generate_meta_file(f, guid, args.overwrite);
         }
     }
 }
 
-fn generate_meta_file(filename: PathBuf, guid: u128) {
+fn generate_meta_file(filename: PathBuf, guid: u128, overwrite: bool) {
     let metafilename = PathBuf::from(format!("{}.meta", &filename.to_string_lossy()));
-    println!("{}", &metafilename.to_string_lossy());
 
+    if metafilename.exists() && !overwrite {
+        println!("skipping {}", &metafilename.to_string_lossy());
+        return;
+    }
+
+    println!("writing {}", &metafilename.to_string_lossy());
     let data = format!(
         "fileFormatVersion: 2
 guid: {:x}
