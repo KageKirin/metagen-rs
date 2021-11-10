@@ -34,7 +34,7 @@ fn main() {
     println!("seed hash: {:x}", seed);
 
     for f in args.files {
-        if f.exists() {
+        if f.exists() && (f.extension() != None && f.extension().unwrap() != "meta") {
             let guid = hash128_with_seed(f.to_str().unwrap().as_bytes(), seed);
             println!("{} -> {:x}", f.to_str().unwrap(), guid);
             generate_meta_file(f, guid, args.overwrite);
